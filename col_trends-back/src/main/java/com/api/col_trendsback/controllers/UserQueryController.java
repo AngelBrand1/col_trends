@@ -15,7 +15,7 @@ import com.api.col_trendsback.repositories.UserQueryRepository;
 @RestController
 @RequestMapping("/api/userquery")
 public class UserQueryController {
-
+    
 
     @Autowired
     private UserQueryRepository _userQueryRepository;
