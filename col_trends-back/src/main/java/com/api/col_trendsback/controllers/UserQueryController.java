@@ -15,20 +15,18 @@ import com.api.col_trendsback.repositories.UserQueryRepository;
 @RestController
 @RequestMapping("/api/userquery")
 public class UserQueryController {
-    
 
     @Autowired
     private UserQueryRepository _userQueryRepository;
 
     @GetMapping
-    public List<UserQuery> getUserQuery()
-    {
+    public List<UserQuery> getUserQuery() {
         return _userQueryRepository.findAll();
     }
+
     @PostMapping
-    public UserQuery creatUserQuery(@RequestBody UserQuery userQuery)
-    {
+    public UserQuery creatUserQuery(@RequestBody UserQuery userQuery) {
         return _userQueryRepository.save(userQuery);
     }
-    
+
 }

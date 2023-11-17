@@ -7,18 +7,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 
-
-
 @Entity
 @Table(name = "userquery")
-public  class UserQuery {
+public class UserQuery {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "username")
     private String userName;
-    
+
     @Column(name = "comment")
     private String comment;
 
