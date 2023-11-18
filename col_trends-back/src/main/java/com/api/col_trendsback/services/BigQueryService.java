@@ -1,9 +1,12 @@
 package com.api.col_trendsback.services;
 
 import org.springframework.stereotype.Service;
+
+import com.api.col_trendsback.utils.QueryResponse;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.Field;
+import com.google.cloud.bigquery.FieldList;
 import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.Job;
@@ -13,6 +16,7 @@ import com.google.cloud.bigquery.TableResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.rpc.context.AttributeContext.Response;
 
 /**
  * Big Query service, manage the connection with big query and execute the queries.
@@ -25,12 +29,12 @@ public class BigQueryService {
      * @return a table result on format Json 
      */
     private String convertirTableResultAJson(TableResult result) {
+
         Gson gson = new Gson();
         JsonObject jsonResult = new JsonObject();
         jsonResult.add("schema", gson.toJsonTree(result.getSchema()));
         jsonResult.addProperty("totalRows", result.getTotalRows());
         JsonArray rowsArray = new JsonArray();
-
         for (FieldValueList row : result.getValues()) {
             JsonObject rowObject = new JsonObject();
             for (Field field : result.getSchema().getFields()) {
@@ -52,7 +56,7 @@ public class BigQueryService {
     public String executeQuery() throws Exception {
         BigQuery bigquery = BigQueryOptions.newBuilder().setProjectId("fellow-405319").build().getService();
 
-        final String GET_WORD_COUNT = "SELECT distinct term, rank FROM `bigquery-public-data.google_trends.international_top_terms` WHERE country_name = 'Colombia' LIMIT 20";
+        final String GET_WORD_COUNT = "SELECT distinct term, rank ranking, region_name region FROM `bigquery-public-data.google_trends.international_top_terms` WHERE country_name = 'Colombia' LIMIT 20";
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(GET_WORD_COUNT).build();
 
         Job queryJob = bigquery.create(JobInfo.newBuilder(queryConfig).build());
