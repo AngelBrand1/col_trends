@@ -1,8 +1,7 @@
 package com.api.col_trendsback.controllers;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.api.col_trendsback.models.UserQuery;
 import com.api.col_trendsback.repositories.UserQueryRepository;
@@ -20,7 +18,7 @@ import com.google.api.services.bigquery.model.QueryParameter;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:9000")
 public class UserQueryController {
 
     @Autowired
@@ -32,15 +30,9 @@ public class UserQueryController {
     }
 
     @GetMapping("/fields")
-    public ResponseEntity<Map<String, Object>> tuMetodoQueRetornaArrays() {
-        String[] internationalTop = { "rank", "term", "region" };
-        String[] top = { "designed market area"};
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("internationalTop", internationalTop);
-        response.put("top", top);
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<String>> getFields() {
+        List<String> fields = Arrays.asList("rank", "term", "region", "percent gain");
+        return ResponseEntity.ok(fields);
     }
 
     @PostMapping("/createuser")

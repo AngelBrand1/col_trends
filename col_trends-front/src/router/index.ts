@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './../views/HomeView.vue'
-import QuerySavedView from './../views/QuerySavedView.vue'
+import SavedQuery from './../components/SavedQuery.vue'
+import CreateQuery from './../components/CreateQuery.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,14 +9,19 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/Saved',
-      name: 'saved',
-      component: QuerySavedView
+      component: HomeView,
+      children:[
+        {
+          path: '/saved',
+          name: 'saved',
+          component: SavedQuery
+        }, {
+          path: '/create',
+          name: 'create',
+          component: CreateQuery
+        }
+      ]
     }
-
   ]
 })
 

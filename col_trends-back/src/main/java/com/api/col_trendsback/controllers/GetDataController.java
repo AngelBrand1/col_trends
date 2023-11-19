@@ -13,7 +13,7 @@ import com.api.col_trendsback.utils.QueryResponse;
 
 @RestController
 @RequestMapping("/api/data")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:9000/")
 public class GetDataController {
     @Autowired
     BigQueryService _bigQueryService;

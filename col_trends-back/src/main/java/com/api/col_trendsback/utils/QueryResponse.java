@@ -34,13 +34,4 @@ public class QueryResponse {
     public void setFields(FieldList fields) {
         this.fields = fields;
     }
-
-    // public static QueryResponse fromQueryJob(QueryJobConfiguration queryConfig, QueryResponse response) {
-    //     BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
-    //     TableResult result = bigquery.query(queryConfig);
-    //     response.setFields(result.getSchema().getFields());
-    //     response.setTotalRows(result.getTotalRows());
-    //     response.setValues(result.iterateAll());
-    //     return response;
-    // }
 }

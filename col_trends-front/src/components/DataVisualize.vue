@@ -3,7 +3,7 @@ import { useDataQueryStore } from '@/stores/data_query';
 
 const dataQuery = useDataQueryStore();
 async function  handleClick() {
-    let res:any = await fetch('https://gist.githubusercontent.com/enriqueornelasjr/57cc380aa96a3e041e4886202c30e40c/raw/bccfbee870c0bff1ba04b35eb84f515923b8236b/Months.json');
+    let res:any = await fetch('http://localhost:8080/api/data');
     res = await res.json();
     console.log(res);
     let data:any = res;

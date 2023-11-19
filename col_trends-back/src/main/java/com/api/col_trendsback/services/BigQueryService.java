@@ -1,12 +1,12 @@
 package com.api.col_trendsback.services;
 
+
 import org.springframework.stereotype.Service;
 
-import com.api.col_trendsback.utils.QueryResponse;
+
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.Field;
-import com.google.cloud.bigquery.FieldList;
 import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.Job;
@@ -16,7 +16,6 @@ import com.google.cloud.bigquery.TableResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.rpc.context.AttributeContext.Response;
 
 /**
  * Big Query service, manage the connection with big query and execute the queries.
