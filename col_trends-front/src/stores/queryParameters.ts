@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 interface  QueryParameters {
+  comment?: string; 
+  userName?: string;
   idUserQuery?: number;
   fields?: string[];
   filter?: string;

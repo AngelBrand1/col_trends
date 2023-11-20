@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import { useQueryStore } from '@/stores/queryParameters';
-// import StartView from './views/StartView.vue';
-// import HeaderApp from './components/HeaderApp.vue';
 const {query} = useQueryStore();
 </script>
 
 <template>
-   <RouterView></RouterView>
+  <header class="app-nav">
+      <div class="logo-container">
+        <img src="@/assets/app-icon.png" alt="Logo" class="logo" />
+        <label for=""></label>
+        <h1 class="app-name">Colombia Trends</h1>
+      </div>
+
+        <div class="user-container">
+          <span class="username">{{query.userName}}</span>
+          <img src="@/assets/user-icon.png" alt="User Icon" class="user-icon" />
+        </div>
+    </header>
+  <!-- <div class="content-view">
+    <HomeViewVue />
+  </div> -->
 </template>
 
 <style scoped>

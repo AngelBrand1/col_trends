@@ -14,9 +14,9 @@
           <label :for="field">{{ field }}</label>
         </div>
       </div>
-      <h3>Order type:</h3>
-      <div>
-        <input type="checkbox" id="desc" :value="true" v-model="query.desc">
+      <h3 v-if="query.order">Order type:</h3>
+      <div v-if="query.order">
+        <input type="checkbox" id="desc" :value="true" v-model="query.desc" >
         <label for="desc">Desc</label>
       </div>
     </div>
@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { useQueryStore } from '@/stores/queryParameters';
 import { URL_BACK } from '@/env';
 import { computed, onBeforeMount, ref } from 'vue';

@@ -1,31 +1,36 @@
 <script setup lang="ts">
 import { URL_BACK } from '@/env';
-import GraphicVisulize from './../components/GraphicVisulize.vue';
+import HeaderApp from './../components/HeaderApp.vue';
+import TableContent from './../components/TableContent.vue';
 import { useQueryStore } from '@/stores/queryParameters';
+import { useData } from '@/stores/data';
 const { query } = useQueryStore();
-
+const {data,setData} = useData();
 const executeQuery = async () => {
 
-  let res:any = await fetch(`${URL_BACK}/createquery`, { 
+  let res:any = await fetch(`${URL_BACK}/data/execute`, { 
     method: "POST", 
     body: JSON.stringify(query),
     headers: {
       "Content-Type": "application/json",
     } })
     .catch(() => null);
+  console.log(data);
   res = await res.json();
-  console.log(res);
+  setData(res);
+  console.log(data);
 }
 </script>
 
 <template>
-  <div class="home-view">
+    <HeaderApp />
+  <div class="home-view content-view">
     <div class="c1 height-width-100">
       <div class="btn">
-        <RouterLink to="/create">
+        <RouterLink to="/home/create">
           <input type="button" value="Create" class="height-width-100">
         </RouterLink>
-        <RouterLink to="/saved">
+        <RouterLink to="/home/saved">
           <input type="button" value="Saved" class="height-width-100">
         </RouterLink>
       </div>
@@ -37,23 +42,31 @@ const executeQuery = async () => {
       </div>
     </div>
     <div class="c2 height-width-100">
-      <div class=""></div>
-      <GraphicVisulize />
+      <TableContent />
     </div>
     <div class="c3 height-width-100">
+      <label for="comment">Comment: </label>
+      <input type="text">
+      <div class="cont-btn-save">
+        <input type="button" value="Save" class="btn-save">
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
+.content-view{
+  height: calc(100% - 91px);
+  width: 100%;
+}
 .home-view {
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 3fr 1fr;
-  width: 100%;
-  height: 100%;
   padding: 0%;
   margin: 0%;
+  height: calc(100% - 91px);
+  width: 100%;
 
   .c1 {
     border-right-style: solid;
@@ -86,8 +99,23 @@ const executeQuery = async () => {
     border-bottom-style: solid;
     border-width: 1px;
     border-color: rgb(185, 185, 185);
-
+    padding-left: 5px;
+    overflow-y: scroll;
+    height: 100%;
   }
 
-  .c3 {}
+  .c3 {
+    padding-right: 5px;
+    display: grid;
+    grid-template-rows: 1fr 10fr 2fr;
+    .cont-btn-save{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .btn-save{
+        width: 126px;
+        height: 84%;
+      }
+    }
+  }
 }</style>

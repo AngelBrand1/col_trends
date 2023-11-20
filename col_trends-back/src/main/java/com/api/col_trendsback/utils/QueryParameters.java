@@ -1,6 +1,8 @@
 package com.api.col_trendsback.utils;
 
 public class QueryParameters {
+    private String userName;
+    private String comment;
     private long idUserQuery;
     private String[] fields;
     private String filter, order;
@@ -12,8 +14,9 @@ public class QueryParameters {
         this.desc = desc;
     }
     
-    public QueryParameters(long idUserQuery) {
-        this.idUserQuery = idUserQuery;
+    public QueryParameters(String userName, long idUserQuery) {
+        this.userName = userName;
+        this.idUserQuery = idUserQuery; 
     }
 
     public String[] getFields() {
@@ -32,4 +35,13 @@ public class QueryParameters {
     public long getIdUserQuery() {
         return this.idUserQuery;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+    
 }

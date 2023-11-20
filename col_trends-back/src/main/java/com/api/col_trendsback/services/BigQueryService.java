@@ -1,9 +1,14 @@
 package com.api.col_trendsback.services;
 
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
-
+import com.api.col_trendsback.utils.QueryParameters;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.Field;
@@ -18,14 +23,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
- * Big Query service, manage the connection with big query and execute the queries.
+ * Big Query service, manage the connection with big query and execute the
+ * queries.
  */
 @Service
 public class BigQueryService {
+    private static final List<String> VALID_FIELDS = Arrays.asList("percent_gain", "term", "rank", "region");
+
     /**
      * 
      * @param result Type: TableResult of bigquery.TableResult
-     * @return a table result on format Json 
+     * @return a table result on format Json
      */
     private String convertirTableResultAJson(TableResult result) {
 
@@ -48,15 +56,15 @@ public class BigQueryService {
     }
 
     /**
-     * execute a query 
+     * execute a query
+     * 
      * @return a Json result of data obtains of big query
      * @throws Exception
      */
-    public String executeQuery() throws Exception {
+    public String executeQuery(String query) throws Exception {
         BigQuery bigquery = BigQueryOptions.newBuilder().setProjectId("fellow-405319").build().getService();
 
-        final String GET_WORD_COUNT = "SELECT distinct term, rank ranking, region_name region FROM `bigquery-public-data.google_trends.international_top_terms` WHERE country_name = 'Colombia' LIMIT 20";
-        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(GET_WORD_COUNT).build();
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
 
         Job queryJob = bigquery.create(JobInfo.newBuilder(queryConfig).build());
         queryJob = queryJob.waitFor();
@@ -75,5 +83,57 @@ public class BigQueryService {
         TableResult result = queryJob.getQueryResults();
         return convertirTableResultAJson(result);
     }
+
+
+    public String buildQuery(QueryParameters queryParameters) {
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT DISTINCT ");
+
+        Map<String, String> fieldMappings = new HashMap<>();
+        fieldMappings.put("region", "region_name");
+        fieldMappings.put("percent gain", "percent_gain");
+
+        String[] fields = queryParameters.getFields();
+        if (fields != null && fields.length > 0) {
+            for (int i = 0; i < fields.length; i++) {
+                String field = fields[i];
+                if (isValidField(field)) {
+                    if (fieldMappings.containsKey(field)) {
+                        queryBuilder.append(fieldMappings.get(field));
+                    } else {
+                        queryBuilder.append(field);
+                    }
+                    if (i < fields.length - 1) {
+                        queryBuilder.append(", ");
+                    }
+                }
+            }
+        } else {
+            queryBuilder.append("*");
+        }
+
+        queryBuilder.append(" FROM `bigquery-public-data.google_trends.international_top_rising_terms` WHERE country_name = 'Colombia'");
+
+        String filter = queryParameters.getFilter();
+        if (filter != null && !filter.isEmpty()) {
+            queryBuilder.append(" AND refresh_date > '").append(filter).append("'");
+        }
+
+        String order = queryParameters.getOrder();
+        if (order != null && !order.isEmpty()) {
+            String orderField = fieldMappings.containsKey(order) ? fieldMappings.get(order) : order;
+            queryBuilder.append(" ORDER BY ").append(orderField);
+            if (queryParameters.isDesc()) {
+                queryBuilder.append(" DESC");
+            }
+        }
+        queryBuilder.append(" LIMIT 50");
+        return queryBuilder.toString();
+    }
+
+    private boolean isValidField(String field) {
+        return VALID_FIELDS.contains(field.replaceAll(" ", "_")); 
+    }
+
 
 }

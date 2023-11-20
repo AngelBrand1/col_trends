@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.col_trendsback.models.UserQuery;
 import com.api.col_trendsback.repositories.UserQueryRepository;
-import com.google.api.services.bigquery.model.QueryParameter;
+import com.api.col_trendsback.services.BigQueryService;
+import com.api.col_trendsback.utils.QueryParameters;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:9000")
 public class UserQueryController {
+    @Autowired
+    BigQueryService _bigQueryService;
 
     @Autowired
     private UserQueryRepository _userQueryRepository;
@@ -35,15 +40,12 @@ public class UserQueryController {
         return ResponseEntity.ok(fields);
     }
 
-    @PostMapping("/createuser")
-    public UserQuery creatUserQuery(@RequestBody UserQuery userQuery) {
-        return _userQueryRepository.save(userQuery);
-    }
-
-    @PostMapping("/createquery")
-    public ResponseEntity<QueryParameter> createQuery(@RequestBody QueryParameter queryParameter) {
-        QueryParameter temp = queryParameter;
-        return ResponseEntity.ok(queryParameter);
+    @PostMapping("/savequery")
+    public ResponseEntity<String> creatUserQuery(@RequestBody QueryParameters queryParameters) {
+        String query = _bigQueryService.buildQuery(queryParameters);
+        UserQuery userQuery = new UserQuery(queryParameters.getUserName(),queryParameters.getComment(),query);
+        _userQueryRepository.save(userQuery);
+        return ResponseEntity.ok("Query saved");
     }
     
 

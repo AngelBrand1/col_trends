@@ -10,6 +10,11 @@ import jakarta.persistence.GenerationType;
 @Entity
 @Table(name = "userquery")
 public class UserQuery {
+    public UserQuery(String userName, String comment, String queryText) {
+        this.userName = userName;
+        this.comment = comment;
+        this.queryText = queryText;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
