@@ -30,8 +30,10 @@
 import { useQueryStore } from '@/stores/queryParameters';
 import { URL_BACK } from '@/env';
 import { computed, onBeforeMount, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 const fields = ref();
-const { query } = useQueryStore();
+const { query } = storeToRefs( useQueryStore());
+const { query:query2 } = useQueryStore();
 const getFields = async () => {
   let res: any = await fetch(`${URL_BACK}/userquery/fields`)
     .catch(() => null);
@@ -42,7 +44,7 @@ onBeforeMount(() => {
   getFields()
 });
 const selectedFields = computed(() => {
-  return fields?.value?.filter((field: string )=> query?.fields?.includes(field));
+  return fields?.value?.filter((field: string )=> query2?.fields?.includes(field));
 });
 </script>
 

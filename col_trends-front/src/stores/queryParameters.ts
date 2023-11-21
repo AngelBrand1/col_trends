@@ -1,13 +1,14 @@
+import { json } from 'd3';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 interface  QueryParameters {
-  comment?: string; 
-  userName?: string;
-  idUserQuery?: number;
+  comment?: string | null; 
+  userName?: string | null ;
+  idUserQuery?: number | null;
   fields?: string[];
-  filter?: string;
-  order?: string;
+  filter?: string  | null;
+  order?: string | null;
   desc?: boolean;
 }
 
@@ -18,8 +19,15 @@ export const useQueryStore = defineStore(
       query.value = _query;
     }
     const setQueryValue = (_query: QueryParameters) => {
-      query.value = {...query.value ,..._query};
+      
+      const temp:any = JSON.parse(JSON.stringify({...query.value ,..._query}));
+      query.value = temp;
+console.log(query.value)
     }
-    return {query, setQuery, setQueryValue};
+    const resetQueryStore = () => {
+      query.value = {fields:[],desc:false};
+    }
+    return {query, setQuery, setQueryValue,resetQueryStore};
   }
 );
+

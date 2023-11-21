@@ -1,5 +1,7 @@
 package com.api.col_trendsback.models;
 
+import autovalue.shaded.org.jetbrains.annotations.NotNull;
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,15 +23,19 @@ public class UserQuery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private Long id;
 
     @Column(name = "username")
+    @NonNull
     private String userName;
 
     @Column(name = "comment")
+    @NotNull
     private String comment;
 
     @Column(name = "querytext")
+    @NotNull
     private String queryText;
 
     public String getUserName() {

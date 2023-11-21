@@ -19,7 +19,8 @@ const selectComment = (id:number) => {
 </script>
 <template>
     <div class="comments">
-      <div v-for="item in comments" :key="item.id" class="comment" @click="selectComment(item.id)">
+
+      <div v-for="item in comments" :key="item.id" class="comment" :class="{'comment-active':query.idUserQuery == item.id}" @click="selectComment(item.id)">
         <h4>{{ item.userName }}</h4>
         <p>{{ item.comment }}</p>
        
@@ -35,9 +36,9 @@ const selectComment = (id:number) => {
  
     margin: 10px 0;
     cursor: pointer;
-    :hover{
-    background-color: lightgray;
-    }
+    overflow: auto;
+    width: 100%;
+    height: 700px;
     p {
     font-size: 16px;
     }
@@ -46,6 +47,14 @@ const selectComment = (id:number) => {
         border-width: 1px 0px 1px 0px;
         border-color: rgb(192, 192, 192);
         margin: 2px;
+
+        &:hover{
+        background-color: rgb(203, 225, 252) !important;
+        }
+    }
+
+    .comment-active{
+        background-color: rgb(203, 225, 252) !important;
     }
 }
 

@@ -23,11 +23,15 @@ public class UserQueryService {
         String query = _bigQueryService.buildQuery(queryParameters);
         UserQuery userQuery = new UserQuery(queryParameters.getUserName(),queryParameters.getComment(),query);
         _userQueryRepository.save(userQuery);
-        return ResponseEntity.ok("Query saved");
+        return ResponseEntity.ok("{\"sucess\":true,\"message\":\"query saved\"}");
     }
 
     public List<IProjectionUserQuery> getAll(){
-        return _userQueryRepository.findAllProjectedBy();
+        return _userQueryRepository.findByOrderByIdDesc();
     }
 
+    public String getQuery(long id){
+        UserQuery userQuery = _userQueryRepository.findById(id).get();
+        return userQuery.getQueryText();
+    }
 }

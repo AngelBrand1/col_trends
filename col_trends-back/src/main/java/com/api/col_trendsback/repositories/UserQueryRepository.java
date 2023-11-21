@@ -10,4 +10,5 @@ import com.api.col_trendsback.utils.IProjectionUserQuery;
 @Repository
 public interface UserQueryRepository extends JpaRepository<UserQuery, Long> {
     List<IProjectionUserQuery> findAllProjectedBy();
+    List<IProjectionUserQuery> findByOrderByIdDesc();
 }

@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import router from '@/router';
 import { useQueryStore } from '@/stores/queryParameters';
+import { onBeforeMount } from 'vue';
 const {query} = useQueryStore();
+onBeforeMount(() => {
+    if(!query.userName){
+      router.push("/");
+    }
+});
 </script>
 
 <template>

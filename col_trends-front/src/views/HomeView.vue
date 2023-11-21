@@ -4,29 +4,51 @@ import HeaderApp from './../components/HeaderApp.vue';
 import TableContent from './../components/TableContent.vue';
 import { useQueryStore } from '@/stores/queryParameters';
 import { useData } from '@/stores/data';
-const { query } = useQueryStore();
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+const loading = ref<Boolean>(false);
+const {query} = storeToRefs(useQueryStore());
+const { setQueryValue } = useQueryStore();
 const {data,setData} = useData();
 const executeQuery = async () => {
+  let {fields,idUserQuery} = query.value??{};
+  if(!fields?.length&&!idUserQuery){
+    alert('Debe selecionar algun campo o un query.');
+    return;
+  }
+  loading.value = true;
   let res:any = await fetch(`${URL_BACK}/data/execute`, { 
     method: "POST", 
-    body: JSON.stringify(query),
+    body: JSON.stringify(query.value),
     headers: {
       "Content-Type": "application/json",
     } })
     .catch(() => null);
   res = await res.json();
   setData(res);
+  loading.value = false;
 }
 const saveQuery = async () => {
+  loading.value = true;
   let res:any = await fetch(`${URL_BACK}/userquery/savequery`, { 
     method: "POST", 
-    body: JSON.stringify(query),
+    body: JSON.stringify(query.value),
     headers: {
       "Content-Type": "application/json",
     } })
     .catch(() => null);
     res = await res.json();
     console.log(res);
+  loading.value = false;
+
+}
+const cleanIdUser = () => {
+  setQueryValue({idUserQuery:null,comment:null});
+  console.log("id",query);
+}
+const cleanFields = () => {
+setQueryValue({fields:[],order:null,desc:false,filter:null});
+  console.log("fields",query);
 }
 </script>
 
@@ -36,17 +58,17 @@ const saveQuery = async () => {
     <div class="c1 height-width-100">
       <div class="btn">
         <RouterLink to="/home/create">
-          <input type="button" value="Create" class="height-width-100">
+          <input type="button" value="Create" style="width: 98%;" class="height-width-100" @click="cleanIdUser()">
         </RouterLink>
         <RouterLink to="/home/saved">
-          <input type="button" value="Saved" class="height-width-100">
+          <input type="button" value="Saved" style="width: 98%;" class="height-width-100" @click="cleanFields()">
         </RouterLink>
       </div>
       <div class="cont-data">
         <RouterView />
       </div>
       <div class="btn-execute">
-        <input @click="executeQuery" type="button" value="Execute" style="width: 44%;height: 100%;">
+        <input :disabled="loading.valueOf()" @click="executeQuery()" type="button" value="Execute" style="width: 44%;height: 100%;">
       </div>
     </div>
     <div class="c2 height-width-100">
@@ -54,9 +76,9 @@ const saveQuery = async () => {
     </div>
     <div class="c3 height-width-100">
       <label for="comment">Comment: </label>
-      <input type="text" v-model="query.comment">
+      <textarea v-model="query.comment"></textarea>
       <div class="cont-btn-save">
-        <input type="button" value="Save" class="btn-save" @click="saveQuery">
+        <input type="button"  :disabled="loading.valueOf()" value="Save" class="btn-save" @click="saveQuery()">
       </div>
     </div>
   </div>

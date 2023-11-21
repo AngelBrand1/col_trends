@@ -33,3 +33,85 @@
     padding: 0 2rem;
   }
 } */
+
+
+input[type="button"]{
+  background-color: rgb(111, 111, 253);
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  min-height: 40px;
+  width: fit-content;
+
+  &:disabled{
+  background-color: rgb(138, 138, 138);
+  color: rgb(20, 20, 20);
+
+  }
+}
+
+input[type="text"]{
+  outline: none;
+  border: solid 1px gray;
+  border-radius: 5px;
+  height: 50px;
+  background: white;
+  font-size: 16px;
+}
+
+/* Estilo para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para las celdas de encabezado */
+th {
+  background-color: #3498db; /* Color de fondo del encabezado */
+  color: rgb(0, 0, 0); /* Color del texto del encabezado */
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilo para las celdas de datos */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Línea divisoria entre filas */
+}
+
+/* Estilo para las filas impares (opcional) */
+tr:nth-child(odd) {
+  background-color: #ffffff; /* Color de fondo para filas impares */
+}
+
+/* Estilo para el hover sobre las filas (opcional) */
+tr:hover {
+  background-color: #cbf0fa; /* Color de fondo al pasar el ratón */
+}
+
+
+/* Estilo del scrollbar */
+/* Ancho y color del scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Estilo del pulgar (la parte que puedes arrastrar) */
+::-webkit-scrollbar-thumb {
+  background-color: #3498db; /* Color del pulgar */
+  border-radius: 6px; /* Radio de las esquinas del pulgar */
+}
+
+/* Estilo de la pista (el fondo del scrollbar) */
+::-webkit-scrollbar-track {
+  background-color: #ecf0f1; /* Color de la pista */
+  border-radius: 6px; /* Radio de las esquinas de la pista */
+}

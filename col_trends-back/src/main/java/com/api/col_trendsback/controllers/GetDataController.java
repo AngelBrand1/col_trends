@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.api.col_trendsback.services.BigQueryService;
+import com.api.col_trendsback.services.UserQueryService;
 import com.api.col_trendsback.utils.QueryParameters;
 
 @RestController
@@ -17,11 +18,19 @@ import com.api.col_trendsback.utils.QueryParameters;
 public class GetDataController {
     @Autowired
     BigQueryService _bigQueryService;
+
+    @Autowired
+    UserQueryService _userQueryService;
                 
     @PostMapping("/execute")
     @ResponseBody
     public ResponseEntity<String> createQuery(@RequestBody QueryParameters queryParameters) {
-        String query = _bigQueryService.buildQuery(queryParameters);
+        String query;
+        if(queryParameters.getIdUserQuery() != 0){
+            query = _userQueryService.getQuery(queryParameters.getIdUserQuery());
+        }else {
+            query = _bigQueryService.buildQuery(queryParameters);
+        }
         try {
             return ResponseEntity.status(HttpStatus.OK)
                 .header(null)
