@@ -76,7 +76,7 @@ setQueryValue({fields:[],order:null,desc:false,filter:null});
     </div>
     <div class="c3 height-width-100">
       <label for="comment">Comment: </label>
-      <textarea v-model="query.comment"></textarea>
+      <textarea :v-model="query.comment"></textarea>
       <div class="cont-btn-save">
         <input type="button"  :disabled="loading.valueOf()" value="Save" class="btn-save" @click="saveQuery()">
       </div>

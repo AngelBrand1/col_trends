@@ -25,6 +25,11 @@ public class GetDataController {
     @PostMapping("/execute")
     @ResponseBody
     public ResponseEntity<String> createQuery(@RequestBody QueryParameters queryParameters) {
+        String env = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+        System.out.println(env);
+        String directorioActual = System.getProperty("user.dir");
+        System.out.println(directorioActual);
+
         String query;
         if(queryParameters.getIdUserQuery() != 0){
             query = _userQueryService.getQuery(queryParameters.getIdUserQuery());
