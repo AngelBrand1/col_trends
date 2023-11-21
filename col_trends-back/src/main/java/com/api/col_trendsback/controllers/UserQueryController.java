@@ -17,21 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.col_trendsback.models.UserQuery;
 import com.api.col_trendsback.repositories.UserQueryRepository;
 import com.api.col_trendsback.services.BigQueryService;
+import com.api.col_trendsback.services.UserQueryService;
+import com.api.col_trendsback.utils.IProjectionUserQuery;
 import com.api.col_trendsback.utils.QueryParameters;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/userquery")
 @CrossOrigin(origins = "http://localhost:9000")
 public class UserQueryController {
-    @Autowired
-    BigQueryService _bigQueryService;
+
 
     @Autowired
-    private UserQueryRepository _userQueryRepository;
+    private UserQueryService _userQueryServise;
 
-    @GetMapping("/userquery")
-    public List<UserQuery> getUserQuery() {
-        return _userQueryRepository.findAll();
+    @GetMapping("/saved")
+    public List<IProjectionUserQuery> getUserQuery() {
+        return _userQueryServise.getAll();
     }
 
     @GetMapping("/fields")
@@ -42,10 +43,7 @@ public class UserQueryController {
 
     @PostMapping("/savequery")
     public ResponseEntity<String> creatUserQuery(@RequestBody QueryParameters queryParameters) {
-        String query = _bigQueryService.buildQuery(queryParameters);
-        UserQuery userQuery = new UserQuery(queryParameters.getUserName(),queryParameters.getComment(),query);
-        _userQueryRepository.save(userQuery);
-        return ResponseEntity.ok("Query saved");
+        return _userQueryServise.saveQuery(queryParameters);
     }
     
 

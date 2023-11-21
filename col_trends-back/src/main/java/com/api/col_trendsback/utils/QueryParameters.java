@@ -7,16 +7,21 @@ public class QueryParameters {
     private String[] fields;
     private String filter, order;
     private boolean desc;
-    public QueryParameters(String[] fields, String filter, String order, boolean desc) {
+    public QueryParameters(String[] fields, String filter, String order, boolean desc,String userName) {
         this.fields = fields;
         this.filter = filter;
         this.order = order;
         this.desc = desc;
+        this.userName = userName;
     }
     
     public QueryParameters(String userName, long idUserQuery) {
         this.userName = userName;
         this.idUserQuery = idUserQuery; 
+    }
+    
+
+    public QueryParameters() {
     }
 
     public String[] getFields() {

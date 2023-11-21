@@ -33,7 +33,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 const fields = ref();
 const { query } = useQueryStore();
 const getFields = async () => {
-  let res: any = await fetch(`${URL_BACK}/fields`)
+  let res: any = await fetch(`${URL_BACK}/userquery/fields`)
     .catch(() => null);
   res = await res?.json();
   fields.value = res;

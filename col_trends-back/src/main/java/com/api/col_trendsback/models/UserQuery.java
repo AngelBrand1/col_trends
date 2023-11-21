@@ -15,6 +15,10 @@ public class UserQuery {
         this.comment = comment;
         this.queryText = queryText;
     }
+    
+    public UserQuery() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -50,5 +54,9 @@ public class UserQuery {
 
     public void setQueryText(String queryText) {
         this.queryText = queryText;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

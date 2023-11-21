@@ -7,7 +7,6 @@ import { useData } from '@/stores/data';
 const { query } = useQueryStore();
 const {data,setData} = useData();
 const executeQuery = async () => {
-
   let res:any = await fetch(`${URL_BACK}/data/execute`, { 
     method: "POST", 
     body: JSON.stringify(query),
@@ -15,10 +14,19 @@ const executeQuery = async () => {
       "Content-Type": "application/json",
     } })
     .catch(() => null);
-  console.log(data);
   res = await res.json();
   setData(res);
-  console.log(data);
+}
+const saveQuery = async () => {
+  let res:any = await fetch(`${URL_BACK}/userquery/savequery`, { 
+    method: "POST", 
+    body: JSON.stringify(query),
+    headers: {
+      "Content-Type": "application/json",
+    } })
+    .catch(() => null);
+    res = await res.json();
+    console.log(res);
 }
 </script>
 
@@ -46,9 +54,9 @@ const executeQuery = async () => {
     </div>
     <div class="c3 height-width-100">
       <label for="comment">Comment: </label>
-      <input type="text">
+      <input type="text" v-model="query.comment">
       <div class="cont-btn-save">
-        <input type="button" value="Save" class="btn-save">
+        <input type="button" value="Save" class="btn-save" @click="saveQuery">
       </div>
     </div>
   </div>
